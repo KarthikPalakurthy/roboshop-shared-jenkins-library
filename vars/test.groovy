@@ -1,3 +1,3 @@
 def call (name = 'fruit_name') {
- echo ' Hello ${fruit}'
+ echo ' Hello ${name}'
 }

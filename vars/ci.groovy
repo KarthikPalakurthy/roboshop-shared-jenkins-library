@@ -2,13 +2,15 @@ def call(){
 
     pipeline {
         agent {
-            label 'ansible'
+            label 'workstation'
         }
 
         stages {
-            stage('Hello') {
+            stage('Compile/build') {
                 steps {
-                    echo 'Hello World!'
+                    script {
+                        common.compile()
+                    }
                 }
             }
             stage('Hello1') {

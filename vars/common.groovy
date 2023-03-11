@@ -24,5 +24,5 @@ def unittests() {
 
 
 def email(email_note) {
-    mail bcc: '', body: 'TEST', cc: '', from: '', replyTo: '', subject: 'Test', to: 'karthik.palakurthy95@gmail.com	'
+    mail bcc: '', body: '', cc: '', from: 'palakurthyk95@gmail.com', replyTo: '', subject: '', to: 'palakurthyk95@gmail.com'
 }

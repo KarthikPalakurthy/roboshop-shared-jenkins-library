@@ -21,9 +21,9 @@ def unittests() {
     if (app_lang== "maven"){
         try {
             sh 'mvn test'
-        } catch(Exception e)
-            common.email (" Unit Tests Failed ")
-        sh 'mvn test'
+        } catch(Exception e) {
+            common.email(" Unit Tests Failed ")
+        }
     }
     if (app_lang== "python"){
         try {

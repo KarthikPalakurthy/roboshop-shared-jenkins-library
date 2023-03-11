@@ -36,5 +36,5 @@ def unittests() {
 }
 
 def email(email_note) {
-    sh "echo {$email_note}"
+    sh 'echo {$email_note}'
 }

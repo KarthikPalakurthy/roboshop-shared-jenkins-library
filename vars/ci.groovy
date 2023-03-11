@@ -13,14 +13,16 @@ def call(){
                     }
                 }
             }
-            stage('Hello1') {
+            stage('Unit Tests') {
                 steps {
-                    echo 'Hello World!, This is a test message'
+                    echo 'Unit testing'
                 }
             }
-            stage('Hello2') {
+            stage('Quality Control') {
                 steps {
-                    echo 'Thank you'
+                    script {
+                        common.unittests()
+                    }
                 }
             }
             stage('Upload code to centralised place') {

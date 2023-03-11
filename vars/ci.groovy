@@ -38,10 +38,8 @@ def call() {
 
             }
 
-        } catch(Exception e){
-            common.email ("Failed")
         }
-
-
+        }catch(Exception e) {
+        common.email ("Failed")
     }
 }

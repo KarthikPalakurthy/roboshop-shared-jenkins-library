@@ -14,7 +14,7 @@ def unittests() {
         try {
             sh 'npm test '
         } catch(Exception e) {
-            common.email (" Unit Tests Failed ")
+            email (" Unit Tests Failed ")
         }
 
     }
@@ -22,19 +22,19 @@ def unittests() {
         try {
             sh 'mvn test'
         } catch(Exception e) {
-            common.email(" Unit Tests Failed ")
+            email(" Unit Tests Failed ")
         }
     }
     if (app_lang== "python"){
         try {
             sh 'python3 -m unittest'
         } catch(Exception e) {
-            common.email (" Unit Test failed ")
+            email (" Unit Test failed ")
         }
     }
 
 }
 
 def email(email_note) {
-    sh 'echo {$email_note}'
+    println email_note
 }

@@ -25,5 +25,5 @@ def unittests() {
 
 
 def email(email_note) {
-    mail bcc: '', body: "Failure detected on ${JOB_URL}", cc: '', from: 'palakurthyk95@gmail.com', replyTo: '', subject: "${JOB_BASE_NAME}", to: 'palakurthyk95@gmail.com'
+    mail bcc: '', body: "Failure detected on ${JOB_URL}", cc: '', from: 'palakurthyk95@gmail.com', replyTo: '', subject: "Failure on ${JOB_BASE_NAME}", to: 'palakurthyk95@gmail.com'
 }

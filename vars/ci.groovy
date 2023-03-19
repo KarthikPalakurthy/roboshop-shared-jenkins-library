@@ -27,7 +27,7 @@ def call() {
                     steps {
                         script {
                             withAWSParameterStore(credentialsId: '', naming: 'relative', path: '/service', recursive: true, regionName: 'us-east-1') {
-                                sh 'sonar-scanner -Dsonar.host.url=http://172.31.2.143:9000 -Dsonar.login=${SONAR_USER} -Dsonar.password=${SONAR_PASS} -Dsonar.projectKey=cart'
+                                sh "sonar-scanner -Dsonar.host.url=http://172.31.2.143:9000 -Dsonar.login=${SONAR_USER} -Dsonar.password=${SONAR_PASS} -Dsonar.projectKey=cart"
                             }
                         }
                     }

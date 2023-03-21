@@ -20,17 +20,13 @@ def call() {
                 }
                 stage('Quality Control') {
                     environment {
-                        SONAR_USER= '$(aws ssm get-parameters --region us-east-1 --names sonarqube.user --query Parameters[0].Value --with-decryption| sed \\\'s/"//g\\\')'
-                        SONAR_PASS= '$(aws ssm get-parameters --region us-east-1 --names sonarqube.pass --query Parameters[0].Value --with-decryption| sed \\\'s/"//g\\\')'
+                        SONAR_USER= '$(aws ssm get-parameters --region us-east-1 --names sonarqube.user --query Parameters[0].Value | sed \\\'s/"//g\\\')'
+                        SONAR_PASS= '$(aws ssm get-parameters --region us-east-1 --names sonarqube.pass --query Parameters[0].Value | sed \\\'s/"//g\\\')'
 
                     }
                     steps {
-                        script {
-                            withAWSParameterStore(credentialsId: '', naming: 'relative', path: '/service', recursive: true, regionName: 'us-east-1') {
                                 sh "sonar-scanner -Dsonar.host.url=http://172.31.2.143:9000 -Dsonar.login=${SONAR_USER} -Dsonar.password=${SONAR_PASS} -Dsonar.projectKey=cart"
-                            }
                         }
-                    }
                 }
                 stage('Upload code to centralised place') {
                     steps {

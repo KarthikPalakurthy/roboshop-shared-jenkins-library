@@ -15,7 +15,9 @@ def call() {
                 }
                 stage('Unit Tests') {
                     steps {
-                        echo 'Unit testing'
+                        script{
+                            common.unittests()
+                        }
                     }
                 }
                 stage('Quality Control') {
@@ -25,7 +27,9 @@ def call() {
 
                     }
                     steps {
-                                sh "sonar-scanner -Dsonar.host.url=http://172.31.2.143:9000 -Dsonar.login=${SONAR_USER} -Dsonar.password=${SONAR_PASS} -Dsonar.projectKey=cart"
+                        script{
+                            sh "sonar-scanner -Dsonar.host.url=http://172.31.2.143:9000 -Dsonar.login=${SONAR_USER} -Dsonar.password=${SONAR_PASS} -Dsonar.projectKey=cart"
+                            }
                         }
                 }
                 stage('Upload code to centralised place') {

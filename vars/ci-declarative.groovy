@@ -1,3 +1,5 @@
+
+
 def call() {
     try {
         pipeline {
@@ -32,24 +34,24 @@ def call() {
                             wrap([$class: "MaskPasswordsBuildWrapper", varPasswordPairs: [[password: "${SONAR_PASS}", var: 'SECRET']]]) {
                                 sh "sonar-scanner -Dsonar.host.url=http://172.31.3.246:9000 -Dsonar.login=${SONAR_USER} -Dsonar.password=${SONAR_PASS} -Dsonar.projectKey=cart"
                             }
-                            }
-                        }
-                    }
-                    stage('Upload code to centralised place') {
-                        steps {
-                            echo ' Uploading code'
                         }
                     }
                 }
-                post {
-                    always {
-                        echo ' Sending E-mail '
+                stage('Upload code to centralised place') {
+                    steps {
+                        echo ' Uploading code'
                     }
-
+                }
+            }
+            post {
+                always {
+                    echo ' Sending E-mail '
                 }
 
             }
-        } catch (Exception e) {
-            common.email("Failed")
+
         }
+    } catch (Exception e) {
+        common.email("Failed")
     }
+}

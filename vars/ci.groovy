@@ -1,6 +1,6 @@
 def call() {
     try {
-        node('test-work'){
+        node('test-work') {
 
             stage('Cleanup') {
                 cleanWs()

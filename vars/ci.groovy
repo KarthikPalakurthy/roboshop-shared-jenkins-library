@@ -28,7 +28,7 @@ def call() {
                     }
                     steps {
                         script{
-                            sh "sonar-scanner -Dsonar.host.url=http://172.31.3.246:9000 -Dsonar.login=${SONAR_USER} -Dsonar.password=${SONAR_PASS} -Dsonar.projectKey=cart"
+                            sh "sonar-scanner -Dsonar.host.url=http://172.31.3.246:9000 -Dsonarqube.login=${SONAR_USER} -Dsonarqube.password=${SONAR_PASS} -Dsonar.projectKey=cart"
                             }
                         }
                 }

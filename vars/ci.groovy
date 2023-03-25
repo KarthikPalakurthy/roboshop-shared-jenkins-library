@@ -30,7 +30,7 @@ def call() {
                         script {
                             wrap([$class: "MaskPasswordsBuildWrapper", varPasswordPairs: [[password: "${SONAR_PASS}"]]]) {
                                 println ( "${SONAR_PASS}" )
-                                sh ( echo ' Password is "${SONAR_PASS}" ')
+                                sh ' echo Password is "${SONAR_PASS}" '
                                 //sh "sonar-scanner -Dsonar.host.url=http://172.31.3.246:9000 -Dsonar.login=${SONAR_USER} -Dsonar.password=${SONAR_PASS} -Dsonar.projectKey=cart"
                             }
                             }

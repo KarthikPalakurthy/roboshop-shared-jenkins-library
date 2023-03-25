@@ -15,7 +15,7 @@ def call() {
                 }
                 stage('Unit Tests') {
                     steps {
-                        script{
+                        script {
                             common.unittests()
                         }
                     }
@@ -27,27 +27,28 @@ def call() {
 
                     }
                     steps {
-                        script{
-                            maskPasswords(varPasswordPairs: [[password: ${SONAR_PASS}, var: 'admin']]) {
-                            sh "sonar-scanner -Dsonar.host.url=http://172.31.3.246:9000 -Dsonar.login=${SONAR_USER} -Dsonar.password=${SONAR_PASS} -Dsonar.projectKey=cart"
+                        script {
+                            maskPasswords(varPasswordPairs: [[password: $ { SONAR_PASS }, var: 'admin']]) {
+                                sh "sonar-scanner -Dsonar.host.url=http://172.31.3.246:9000 -Dsonar.login=${SONAR_USER} -Dsonar.password=${SONAR_PASS} -Dsonar.projectKey=cart"
                             }
                         }
-                }
-                stage('Upload code to centralised place') {
-                    steps {
-                        echo ' Uploading code'
+                    }
+                    stage('Upload code to centralised place') {
+                        steps {
+                            echo ' Uploading code'
+                        }
                     }
                 }
-            }
-            post {
-                always {
-                    echo ' Sending E-mail '
+                post {
+                    always {
+                        echo ' Sending E-mail '
+                    }
+
                 }
 
             }
-
+        } catch (Exception e) {
+            common.email("Failed")
         }
-        }catch(Exception e) {
-        common.email ("Failed")
     }
 }

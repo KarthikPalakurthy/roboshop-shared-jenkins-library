@@ -1,55 +1,27 @@
 def call() {
     try {
-        pipeline {
-            agent {
-                label 'test-work'
+        node('test-work'){
+
+            stage('Compile/build') {
+                common.compile()
             }
 
-            stages {
-                stage('Compile/build') {
-                    steps {
-                        script {
-                            common.compile()
-                        }
-                    }
-                }
-                stage('Unit Tests') {
-                    steps {
-                        script {
-                            common.unittests()
-                        }
-                    }
-                }
-                stage('Quality Control') {
-                    environment {
-                        SONAR_USER = '$(aws ssm get-parameters --region us-east-1 --names sonarqube.user --with-decryption --query Parameters[0].Value | sed \'s/"//g\')'
-                        //SONAR_PASS = '$(aws ssm get-parameters --region us-east-1 --names sonarqube.pass --with-decryption --query Parameters[0].Value | sed \'s/"//g\')'
-
-                    }
-                    steps {
-                        script {
-                            SONAR_PASS = sh ( script: 'aws ssm get-parameters --region us-east-1 --names sonarqube.pass --with-decryption --query Parameters[0].Value | sed \'s/"//g\'', returnStdout: true).trim()
-                            wrap([$class: "MaskPasswordsBuildWrapper", varPasswordPairs: [[password: "${SONAR_PASS}", var: 'SECRET']]]) {
-                                sh "sonar-scanner -Dsonar.host.url=http://172.31.3.246:9000 -Dsonar.login=${SONAR_USER} -Dsonar.password=${SONAR_PASS} -Dsonar.projectKey=cart"
-                            }
-                            }
-                        }
-                    }
-                    stage('Upload code to centralised place') {
-                        steps {
-                            echo ' Uploading code'
-                        }
-                    }
-                }
-                post {
-                    always {
-                        echo ' Sending E-mail '
-                    }
-
-                }
-
+            stage('Unit Tests') {
+                common.unittests()
             }
-        } catch (Exception e) {
-            common.email("Failed")
+
+            stage('Quality Control') {
+                SONAR_PASS = sh ( script: 'aws ssm get-parameters --region us-east-1 --names sonarqube.pass --with-decryption --query Parameters[0].Value | sed \'s/"//g\'', returnStdout: true).trim()
+                SONAR_USER = sh ( script: 'aws ssm get-parameters --region us-east-1 --names sonarqube.user --with-decryption --query Parameters[0].Value | sed \'s/"//g\'', returnStdout: true).trim()
+                wrap([$class: "MaskPasswordsBuildWrapper", varPasswordPairs: [[password: "${SONAR_PASS}", var: 'SECRET']]]) {
+                    sh "sonar-scanner -Dsonar.host.url=http://172.31.3.246:9000 -Dsonar.login=${SONAR_USER} -Dsonar.password=${SONAR_PASS} -Dsonar.projectKey=cart"
+                }
+            }
+
+            stage('Upload') {
+                echo 'Upload'
+            }
+
         }
     }
+}

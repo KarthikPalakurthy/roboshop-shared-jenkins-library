@@ -52,4 +52,3 @@ def call() {
             common.email("Failed")
         }
     }
-}

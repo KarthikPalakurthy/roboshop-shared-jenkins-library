@@ -27,6 +27,10 @@ def call() {
                 }
             }
 
+            stage('Upload to Centralised Place') {
+                echo 'Uploading Code'
+            }
+
 
         }
 

@@ -4,11 +4,7 @@ def call() {
         env.SONAR_EXTRA_OPTS = " "
     }
 
-    if (!env.TAG_NAME) {
-        env.PUSH_CODE = "false"
-    } else {
-        env.PUSH_CODE = "true"
-    }
+
 
     try {
         node('test-work') {
@@ -35,12 +31,11 @@ def call() {
                 }
             }
 
-            if (env.PUSH_CODE == "true"){
 
-                stage('Upload to Centralised Place') {
+            stage('Upload to Centralised Place') {
                     echo 'Uploading Code'
                 }
-            }
+
 
 
 

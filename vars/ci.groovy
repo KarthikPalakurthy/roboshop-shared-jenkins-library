@@ -1,21 +1,13 @@
 def call() {
-    if(!env.SONAR_EXTRA_OPTS) {
-        env.SONAR_EXTRA_OPTS = " "
-    }
 
-    if (!env.TAG_NAME) {
-        env.PUSH_CODE = "false"
-    } else {
-        env.PUSH_CODE = "true"
-    }
 
     try {
         node('test-work') {
 
             stage('Checkout') {
                 cleanWs()
-                git branch: 'main', url: "https://github.com/KarthikPalakurthy/${component}"
-                sh 'env'
+                //git branch: 'main', url: "https://github.com/KarthikPalakurthy/${component}"
+                //sh 'env'
             }
 
             stage('Compile/Build') {

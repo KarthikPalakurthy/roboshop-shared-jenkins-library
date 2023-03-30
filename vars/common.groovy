@@ -21,6 +21,13 @@ def unittests() {
         }
 }
 
+def artifacts() {
+    // Adding Artifacts to Nexus
+    if (app_lang=="nodejs"){
+        sh "zip -r cart-${TAG_NAME}.zip node_modules server.js VERSION"
+    }
+
+}
 
 
 def email(email_note) {

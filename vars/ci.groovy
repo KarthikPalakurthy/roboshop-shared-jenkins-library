@@ -1,6 +1,6 @@
 def call() {
 
-    if(!env.SONAR_EXTRA_OPTS) {
+    if (!env.SONAR_EXTRA_OPTS) {
         env.SONAR_EXTRA_OPTS = " "
     }
 
@@ -28,22 +28,27 @@ def call() {
             }
 
             stage('Quality Control') {
-                SONAR_PASS = sh ( script: 'aws ssm get-parameters --region us-east-1 --names sonarqube.pass  --with-decryption --query Parameters[0].Value | sed \'s/"//g\'', returnStdout: true).trim()
-                SONAR_USER = sh ( script: 'aws ssm get-parameters --region us-east-1 --names sonarqube.user  --with-decryption --query Parameters[0].Value | sed \'s/"//g\'', returnStdout: true).trim()
+                SONAR_PASS = sh(script: 'aws ssm get-parameters --region us-east-1 --names sonarqube.pass  --with-decryption --query Parameters[0].Value | sed \'s/"//g\'', returnStdout: true).trim()
+                SONAR_USER = sh(script: 'aws ssm get-parameters --region us-east-1 --names sonarqube.user  --with-decryption --query Parameters[0].Value | sed \'s/"//g\'', returnStdout: true).trim()
                 wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[password: "${SONAR_PASS}", var: 'SECRET']]]) {
                     sh "sonar-scanner -Dsonar.host.url=http://172.31.3.246:9000 -Dsonar.login=${SONAR_USER} -Dsonar.password=${SONAR_PASS} -Dsonar.projectKey=${component} -Dsonar.qualitygate.wait=true ${SONAR_EXTRA_OPTS}"
                 }
             }
 
-            if (env.PUSH_CODE == "true"){
+            if (env.PUSH_CODE == "true") {
 
                 stage('Upload to Centralised Place') {
-                    echo 'Uploading Code'
+                    NEXUS_PASS = sh(script: 'aws ssm get-parameters --region us-east-1 --names nexus.password  --with-decryption --query Parameters[0].Value | sed \'s/"//g\'', returnStdout: true).trim()
+                    NEXUS_USER = sh(script: 'aws ssm get-parameters --region us-east-1 --names nexus.user  --with-decryption --query Parameters[0].Value | sed \'s/"//g\'', returnStdout: true).trim()
+                    wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[password: "${NEXUS_PASS}", var: 'SECRET']]]) {
+                        curl - v - u ${NEXUS_USER}:${NEXUS_PASS} --upload-file ${component}-${TAG_NAME} http://172.31.11.118:8081/repository/${component}/
+                    }
                 }
             }
-        }
 
-    }catch(Exception e) {
-        common.email("Failed")
+        } catch (Exception e) {
+            common.email("Failed")
+
+        }
     }
 }

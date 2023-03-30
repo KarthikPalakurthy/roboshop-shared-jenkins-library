@@ -41,9 +41,6 @@ def call() {
                     echo 'Uploading Code'
                 }
             }
-
-
-
         }
 
     }catch(Exception e) {

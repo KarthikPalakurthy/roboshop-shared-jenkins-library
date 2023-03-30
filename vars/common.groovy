@@ -33,3 +33,4 @@ def artifacts() {
 def email(email_note) {
     mail bcc: '', body: "Failure detected on ${JOB_URL} component", cc: '', from: 'palakurthyk95@gmail.com', replyTo: '', subject: "Failure on ${JOB_BASE_NAME}", to: 'palakurthyk95@gmail.com'
 }
+

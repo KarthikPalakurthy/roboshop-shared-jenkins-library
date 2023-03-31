@@ -25,7 +25,7 @@ def artifacts() {
     // Adding Artifacts to Nexus
     sh " echo ${TAG_NAME} >VERSION"
     if (app_lang == "nodejs") {
-        sh "zip -r cart-${TAG_NAME}.zip node_modules server.js VERSION ${extrafiles}"
+        sh "zip -r ${component}-${TAG_NAME}.zip node_modules server.js VERSION ${extrafiles}"
     }
 
     NEXUS_PASS = sh(script: 'aws ssm get-parameters --region us-east-1 --names nexus.password  --with-decryption --query Parameters[0].Value | sed \'s/"//g\'', returnStdout: true).trim()

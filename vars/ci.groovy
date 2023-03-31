@@ -39,9 +39,12 @@ def call() {
                 }
             }
 
-            if (env.PUSH_CODE == "true") {
-                common.artifacts()
+            stage('Uploading to centralised place') {
+                if (env.PUSH_CODE == "true") {
+                    common.artifacts()
+                }
             }
+
         }
 
     } catch (Exception e) {

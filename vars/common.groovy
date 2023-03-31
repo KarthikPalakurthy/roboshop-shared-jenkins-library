@@ -27,7 +27,7 @@ def artifacts() {
     if (app_lang == "nodejs") {
         sh "zip -r ${component}-${TAG_NAME}.zip node_modules server.js VERSION ${extrafiles}"
     }
-    if (app_lang == "nginx") {
+    if (app_lang == "nginx" && "python") {
         sh "zip -r ${component}-${TAG_NAME}.zip * -x Jenkinsfile"
     }
 

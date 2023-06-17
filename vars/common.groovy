@@ -6,7 +6,7 @@ def compile() {
         sh "mvn package && cp target/${component}-1.0.jar ${component}.jar"
     }
 
-    sh " docker build -t ${component} ."
+    sh " docker build -t 515990482874.dkr.ecr.us-east-1.amazonaws.com/${component}:${TAG_NAME} ."
 }
 
 
